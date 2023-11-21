@@ -30,7 +30,7 @@ import torch
 
 
 # ZoeD_N
-def ZoeD_N(pretrained=False, midas_model_type="DPT_BEiT_L_384", config_mode="infer", **kwargs):
+def ZoeD_N(pretrained=False, config_mode="infer", **kwargs):
     """Zoe_M12_N model. This is the version of ZoeDepth that has a single metric head
     Args:
         pretrained (bool): If True, returns a model pre-trained on NYU-Depth-V2
@@ -57,15 +57,7 @@ def ZoeD_N(pretrained=False, midas_model_type="DPT_BEiT_L_384", config_mode="inf
             max_temp (int): Upper bound for temperature of output probability distribution. Defaults to 50.
             force_keep_ar (bool): If True, the model will keep the aspect ratio of the input image. Defaults to True.
     """
-    if pretrained and midas_model_type != "DPT_BEiT_L_384":
-        raise ValueError(f"Only DPT_BEiT_L_384 MiDaS model is supported for pretrained Zoe_N model, got: {midas_model_type}")
-
-    if not pretrained:
-        pretrained_resource = None
-    else:
-        pretrained_resource = "url::https://github.com/isl-org/ZoeDepth/releases/download/v1.0/ZoeD_M12_N.pt"
-
-    config = get_config("zoedepth", config_mode, pretrained_resource=pretrained_resource, **kwargs)
+    config = get_config("zoedepth", config_mode, **kwargs)
     model = build_model(config)
     return model
 
